@@ -14,7 +14,6 @@ const userSchema = new mongoose.Schema({
     required: [true, "Please enter your email"],
     unique: true,
   },
-
   password: {
     type: String,
     required: [true, "Please enter your password"],
@@ -72,11 +71,33 @@ const userSchema = new mongoose.Schema({
     return await bcrypt.compare(password, this.password)
  }
 
- userSchema.methods.getJWTToken = function () {
-  return jwt.sign({ _id: this._id }, process.env.JWT_SECRET, {
-    expiresIn: "15d",
-  });
-  };
+ serSchema.methods.generateAccessToken = function(){
+  return jwt.sign(
+      {
+          _id: this._id,
+          email: this.email,
+          username: this.username,
+          fullname: this.fullname,
+          isAdmin: this.isAdmin
+      },
+      process.env.ACCESS_TOKEN_SECRET,
+      {
+          expiresIn: process.env.ACCESS_TOKEN_EXPIRY
+      }
+  )
+}
+userSchema.methods.generateRefreshToken = function(){
+  return jwt.sign(
+      {
+          _id: this._id,
+          isAdmin: this.isAdmin
+      },
+      process.env.REFRESH_TOKEN_SECRET,
+      {
+          expiresIn: process.env.REFRESH_TOKEN_EXPIRY
+      }
+  )
+}
 
 userSchema.methods.getResetToken = function () {
   const resetToken = crypto.randomBytes(20).toString("hex");
