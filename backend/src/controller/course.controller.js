@@ -88,6 +88,14 @@ const getCourseLectures = asyncHandler(async(req,res) => {
 const addLectureIntoCourse = asyncHandler(async(req,res) => {
     const courseId = req.params._id;
 
+    const {title,description} = req.body
+
+    if (
+        [title,description].some((field) => field.trim() === "" )
+    ) {
+        throw new ApiError(400,"All fields are requried")
+    }
+
     const course = await Course.findById(courseId)
     if (!course) {
         throw new ApiError(404, "Course not found")
@@ -123,5 +131,5 @@ const addLectureIntoCourse = asyncHandler(async(req,res) => {
             course,
             "Add Lecture successfully"
         ))
-        
+
 })
