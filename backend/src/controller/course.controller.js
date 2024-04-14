@@ -21,7 +21,7 @@ const createCourse = asyncHandler(async(req,res) => {
     }
     
     if (!posterLocalPath) {
-        throw new ApiError(400, "Avatar file is required")
+        throw new ApiError(400, "Poster file is required")
     }
 
     const poster = await uploadOnCloudinary(posterLocalPath);
@@ -64,5 +64,64 @@ const getAllCourses = asyncHandler(async(req,res) => {
         courses,
         "Course fetched successfully"
     ))
+
+})
+
+const getCourseLectures = asyncHandler(async(req,res) => {
+    const courseId = req.params._id;
+
+    const course = await Course.findById(courseId)
+    if (!course) {
+        throw new ApiError(404, "Course not found")
+    }
+    course.views += 1;
+    await course.save()
+
+    return res.json(
+        new ApiResponse(
+            200,
+            course,
+            "Course fetched successfully"  
+        ))
+})
+
+const addLectureIntoCourse = asyncHandler(async(req,res) => {
+    const courseId = req.params._id;
+
+    const course = await Course.findById(courseId)
+    if (!course) {
+        throw new ApiError(404, "Course not found")
+    }
+
+    let videoLocalPath;
+    if (req.files && Array.isArray(req.files.video) && req.files.video.length > 0) {
+        videoLocalPath = req.files.video[0].path
+    }
     
+    if (!videoLocalPath) {
+        throw new ApiError(400, "Video file is required")
+    }
+
+    const video = await uploadOnCloudinary(videoLocalPath);
+
+    course.lectures.push({
+        title,
+        description,
+        video: {
+          public_id: video.public_id,
+          url: video.secure_url,
+        },
+      });
+    
+      course.numOfVideos = course.lectures.length;
+    
+      await course.save();
+
+      return res.json(
+        new ApiResponse(
+            200,
+            course,
+            "Add Lecture successfully"
+        ))
+        
 })
