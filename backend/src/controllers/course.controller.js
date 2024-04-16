@@ -133,3 +133,10 @@ const addLectureIntoCourse = asyncHandler(async(req,res) => {
         ))
 
 })
+
+export {
+    createCourse,
+    getAllCourses,
+    getCourseLectures,
+    addLectureIntoCourse
+}
