@@ -6,12 +6,11 @@ import  { Toaster } from 'react-hot-toast'
 import { Provider } from 'react-redux'
 import store from './redux/store.js'
 import { Route, RouterProvider, createBrowserRouter, createRoutesFromElements } from 'react-router-dom'
-import Layout from './Layout.jsx'
+import Home from './components/Home/Home.jsx'
 
 const router = createBrowserRouter(
   createRoutesFromElements(
-    <Route path='/' element={<Layout />}>
-     
+    <Route path='/' element={<Home/>}>
     </Route>
   )
 )
@@ -19,7 +18,7 @@ const router = createBrowserRouter(
 ReactDOM.createRoot(document.getElementById('root')).render(
   <Provider store={store}>
   <React.StrictMode>
-    <App />
+  <RouterProvider router={router} />
     <Toaster />
   </React.StrictMode>
   </Provider>,
