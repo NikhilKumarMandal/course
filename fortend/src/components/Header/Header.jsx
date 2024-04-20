@@ -2,8 +2,27 @@ import {AiFillCloseCircle} from 'react-icons/ai';
 import {FiMenu} from 'react-icons/fi';
 import { Link, useNavigate } from 'react-router-dom';
 import Footer from '../Footer/Footer';
+import { useDispatch,useSelector } from 'react-redux'
 
 function Header({children}) {
+
+    const dispatch = useDispatch()
+    const navigate = useNavigate()
+
+    // for checking if user is logged In
+    const isloggedIn = useSelector((state) => state?.auth?.loggedIn)
+
+    // for displaying the options acc to role
+
+    const role = useSelector((state) => state?.auth?.role)
+
+
+    const handleLogout = (e) => {
+        e.preventDefault()
+
+        // const res = await dispatch(logout())
+        navigate('/')
+    }
 
   function changeWidth() {
     const drawerSide = document.getElementsByClassName("drawer-side");
@@ -45,17 +64,18 @@ function Header({children}) {
                     <Link to="/">Home</Link>
                 </li>
 
+                {isloggedIn && role === "ADMIN" && (
+                <li>
+                    <Link to="/admin/dashboard"> Admin DashBoard</Link>
+                </li>
+                )}
+                    
 
-                    <li>
-                        <Link to="/admin/dashboard"> Admin DashBoard</Link>
-                    </li>
-
-  
+                {isloggedIn && role === 'ADMIN' && (   
                     <li>
                         <Link to="/course/create"> Create new course</Link>
                     </li>
-
-
+                )}
                 <li>
                     <Link to="/courses">All Courses</Link>
                 </li>
@@ -68,7 +88,7 @@ function Header({children}) {
                     <Link to="/about">About Us</Link>
                 </li>
 
-    
+                {!isloggedIn && (
                     <li className="absolute bottom-4 w-[90%]">
                         <div className="w-full flex items-center justify-center">
                             <button className='btn-primary px-4 py-1 font-semibold rounded-md w-full'>
@@ -79,19 +99,21 @@ function Header({children}) {
                             </button>
                         </div>
                     </li>
-
-
-
-                    <li className="absolute bottom-4 w-[90%]">
+                )}
+                    
+                {isloggedIn && (
+                        <li className="absolute bottom-4 w-[90%]">
                         <div className="w-full flex items-center justify-center">
                             <button className='btn-primary px-4 py-1 font-semibold rounded-md w-full'>
                                 <Link to="/user/profile">Profile</Link>
                             </button>
                             <button className='btn-secondary px-4 py-1 font-semibold rounded-md w-full'>
-                                <Link >Logout</Link>
+                                <Link onClick={handleLogout} >Logout</Link>
                             </button>
                         </div>
                     </li>
+                )}
+                    
 
             </ul>
         </div>

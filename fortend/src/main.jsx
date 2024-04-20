@@ -6,11 +6,16 @@ import  { Toaster } from 'react-hot-toast'
 import { Provider } from 'react-redux'
 import store from './redux/store.js'
 import { Route, RouterProvider, createBrowserRouter, createRoutesFromElements } from 'react-router-dom'
-import Home from './components/Home/Home.jsx'
+import Home from './pages/Home.jsx'
+import About from './pages/About.jsx'
+import NotFound from './pages/NotFound.jsx'
 
 const router = createBrowserRouter(
   createRoutesFromElements(
-    <Route path='/' element={<Home/>}>
+    <Route>
+    <Route path='/' element={<Home/>}/>
+    <Route path='/about' element={<About/>} />
+    <Route path="*" element={<NotFound />}/>
     </Route>
   )
 )
