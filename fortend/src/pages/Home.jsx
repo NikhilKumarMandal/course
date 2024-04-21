@@ -9,7 +9,7 @@ function Home() {
                 <div className="w-1/2 space-y-6">
                     <h1 className="text-5xl font-semibold">
                         Find out best
-                        <span className="text-green-500 font-bold">
+                        <span className="text-green-500 font-bold p-1">
                             Online Courses
                         </span>
                     </h1>
@@ -33,7 +33,7 @@ function Home() {
                 </div>
 
                 <div className="w-1/2 flex items-center justify-center">
-                    <img alt="homepage image" src='https://static.vecteezy.com/system/resources/previews/026/428/275/non_2x/3d-programmer-engineer-illustration-concept-of-script-coding-and-programming-web-site-professional-programmer-writing-code-for-testing-computer-software-3d-illustration-png.png' />
+                    <img alt="homepage image" src='https://cdni.iconscout.com/illustration/premium/thumb/chai-wala-2704961-2252411.png?f=webp' />
                 </div>
 
             </div>

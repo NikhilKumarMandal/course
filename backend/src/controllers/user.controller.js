@@ -280,81 +280,6 @@ const updateAccountDetails = asyncHandler(async(req,res) => {
 
 })
 
-const googleLogin = asyncHandler(async(req,res,next) => {
-    const { email, name, googlePhotoUrl,fullname } = req.body;
-    try {
-      const user = await User.findOne({ email });
-      if (user) {
-        const {accessToken, refreshToken} = await generateAccessAndRefereshTokens(user._id)
-        const { password, ...rest } = user._doc;
-
-        const loggedInUser = await User.findById(user._id).select("-password -refreshToken")
-
-        const options = {
-        httpOnly: true,
-        secure: true
-        }
-
-    return res
-    .status(200)
-    .cookie("accessToken", accessToken, options)
-    .cookie("refreshToken", refreshToken, options)
-    .json(
-        new ApiResponse(
-            200, 
-            {
-                user: loggedInUser, accessToken, refreshToken
-            },
-            "User logged In Successfully"
-        )
-    )
-      } else {
-        const generatedPassword =
-          Math.random().toString(36).slice(-8) +
-          Math.random().toString(36).slice(-8);
-       
-        const newUser = await User.create({
-          username:
-            name.toLowerCase().split(' ').join('') +
-            Math.random().toString(9).slice(-4),
-          email,
-          fullname,
-          password: generatedPassword,
-          avatar: googlePhotoUrl,
-        });
-        await newUser.save();
-
-   const {accessToken, refreshToken} = await generateAccessAndRefereshTokens(newUser._id)
-
-   const { password, ...rest } = newUser._doc;
-
-    const loggedInUser = await User.findById(user._id).select("-password -refreshToken")
-
-    const options = {
-        httpOnly: true,
-        secure: true
-    }
-
-    return res
-    .status(200)
-    .cookie("accessToken", accessToken, options)
-    .cookie("refreshToken", refreshToken, options)
-    .json(
-        new ApiResponse(
-            200, 
-            {
-                user: loggedInUser, accessToken, refreshToken
-            },
-            "User logged In Successfully"
-        )
-    )
-      }
-    } catch (error) {
-      next(error);
-    }
-
-})
-
 const updateUserAvatar = asyncHandler(async(req, res) => {
     const avatarLocalPath = req.file?.path
 
@@ -396,6 +321,5 @@ export {
     changeCurrentPassword,
     getCurrentUser,
     updateAccountDetails,
-    googleLogin,
     updateUserAvatar
  }
