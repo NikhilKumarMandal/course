@@ -3,6 +3,7 @@ import {FiMenu} from 'react-icons/fi';
 import { Link, useNavigate } from 'react-router-dom';
 import Footer from '../Footer/Footer';
 import { useDispatch,useSelector } from 'react-redux'
+import { logout } from '../../redux/slices/AuthSlice.js'
 
 function Header({children}) {
 
@@ -10,17 +11,16 @@ function Header({children}) {
     const navigate = useNavigate()
 
     // for checking if user is logged In
-    const isloggedIn = useSelector((state) => state?.auth?.loggedIn)
+    const isloggedIn = useSelector((state) => state?.auth?.isLoggedIn)
 
     // for displaying the options acc to role
 
     const role = useSelector((state) => state?.auth?.role)
 
 
-    const handleLogout = (e) => {
+    const handleLogout = async (e) => {
         e.preventDefault()
-
-        // const res = await dispatch(logout())
+        const res = await dispatch(logout())
         navigate('/')
     }
 
@@ -64,14 +64,14 @@ function Header({children}) {
                     <Link to="/">Home</Link>
                 </li>
 
-                {isloggedIn && role === "ADMIN" && (
+                {isloggedIn && role === "admin" && (
                 <li>
                     <Link to="/admin/dashboard"> Admin DashBoard</Link>
                 </li>
                 )}
                     
 
-                {isloggedIn && role === 'ADMIN' && (   
+                {isloggedIn && role === 'admin' && (   
                     <li>
                         <Link to="/course/create"> Create new course</Link>
                     </li>
