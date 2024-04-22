@@ -5,6 +5,7 @@ import { useDispatch } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 import { toast } from 'react-hot-toast';
 import { createAccount } from '../redux/slices/AuthSlice.js';
+import { isEmail, isValidPassword } from '../helpers/Validate.js';
 
 function Signup() {
     const dispatch = useDispatch()
@@ -57,17 +58,17 @@ function Signup() {
           toast.error("Name should be atleast of 5 characters")
           return;
       }
-      // checking valid email
-      // if(!isEmail(signupData.email)) {
-      //     toast.error("Invalid email id");
-      //     return;
-      // }
+       // checking valid email
+       if(!isEmail(signupData.email)) {
+        toast.error("Invalid email id");
+        return;
+    }
+    // checking password validation
+    if(!isValidPassword(signupData.password)) {
+        toast.error("Password should be 6 - 16 character long with atleast a number and special character");
+        return;
+    }
 
-      // checking password validation
-      // if(!isValidPassword(signupData.password)) {
-      //     toast.error("Password should be 6 - 16 character long with atleast a number and special character");
-      //     return;
-      // }
 
       const formData = new FormData();
       formData.append("name", signupData.name);

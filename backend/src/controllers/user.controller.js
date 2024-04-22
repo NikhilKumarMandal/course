@@ -10,10 +10,12 @@ const generateAccessAndRefereshTokens = async(userId) =>{
         const user = await User.findById(userId)
         const accessToken = user.generateAccessToken()
         const refreshToken = user.generateRefreshToken()
+        
+        console.log(accessToken);
 
         user.refreshToken = refreshToken
         await user.save({ validateBeforeSave: false })
-
+        console.log("hello",refreshToken);
         return {accessToken, refreshToken}
 
 
@@ -66,7 +68,7 @@ const registerUser = asyncHandler( async (req, res) => {
     })
 
     const createdUser = await User.findById(user._id).select(
-        "-password -refreshToken"
+        "-password "
     )
 
     if (!createdUser) {
@@ -161,48 +163,56 @@ const logoutUser = asyncHandler(async(req, res) => {
         )
 })
 
-const refreshAccessToken = asyncHandler(async(req,res) => {
-    const incomingRefreshToken = req.cookies?.refreshToken || req.body?.refreshToken
+const refreshAccessToken = asyncHandler(async (req, res) => {
+    // Get the refresh token from cookies or request body
+    const incomingRefreshToken = req.cookies?.refreshToken || req.body?.refreshToken;
 
     if (!incomingRefreshToken) {
-        throw new ApiError(401, "unauthorized request")
+        // Throw an error if refresh token is missing
+        throw new ApiError(401, "Unauthorized request");
     }
 
-    try {
-        const decodedToken = jwt.verify(incomingRefreshToken,process.env.REFRESH_TOKEN_SECRET)
-    
-        const user = await User.findById(decodedToken?._id)
-    
-        if (!user) {
-            throw new ApiError(401, "Invalid refresh token")
-        }
-    
-        if (decodedToken !== user?.refreshToken) {
-            throw new ApiError(401, "Refresh token is expired or used")
-        }
-    
-        const options = {
-            httpOnly: true,
-            secure: true
-        }
-    
-        const {accessToken,newRefreshToken} = await generateAccessAndRefereshTokens(user._id)
-    
-        return res
+    // Verify the incoming refresh token
+    const decodedToken = jwt.verify(incomingRefreshToken, process.env.REFRESH_TOKEN_SECRET);
+
+    // console.log(req.cookies.refreshToken);
+
+    // Find the user based on the decoded token's ID
+    const user = await User.findById(decodedToken?._id);
+
+    if (!user) {
+        // Throw an error if user is not found
+        throw new ApiError(401, "Invalid refresh token");
+    }
+
+    // Compare the decoded refresh token with user's refresh token
+    if (decodedToken !== user?.refreshToken) {
+        // Throw an error if refresh tokens don't match
+        throw new ApiError(401, "Refresh token is expired or used");
+    }
+
+    const options = {
+        httpOnly: true,
+        secure: true
+    };
+
+    // Generate new access and refresh tokens
+    const { accessToken, newRefreshToken } = await generateAccessAndRefreshTokens(user._id);
+
+    // Return the new tokens in response
+    return res
         .status(200)
-        .cookie("accessToken",accessToken,options)
-        .cookie("refreshToken",newRefreshToken,options)
+        .cookie("accessToken", accessToken, options)
+        .cookie("refreshToken", newRefreshToken, options)
         .json(
             new ApiResponse(
                 200,
-                {accessToken, refreshToken: newRefreshToken},
+                { accessToken, refreshToken: newRefreshToken },
                 "Access token refreshed"
             )
-            )
-    } catch (error) {
-        throw new ApiError(401, error?.message || "Invalid refresh token")
-    }
-})
+        );
+
+});
 
 const changeCurrentPassword = asyncHandler(async(req,res) => {
 

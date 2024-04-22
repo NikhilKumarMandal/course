@@ -7,10 +7,10 @@ import { Course } from '../models/course.model.js';
 
 const createCourse = asyncHandler(async(req,res) => {
 
-    const { title, description, category } = req.body;
+    const { title, description, category,createdBy } = req.body;
 
     if (
-        [title,description,category].some((field) => field.trim() === '')
+        [title,description,category,createdBy].some((field) => field.trim() === '')
     ) {
         throw new ApiError(400,"All fields are requried")
     }
@@ -33,7 +33,8 @@ const createCourse = asyncHandler(async(req,res) => {
         poster: {
             public_id: poster?.public_id,
             url: poster?.url
-        }
+        },
+        createdBy
     })
 
     if (!course) {
