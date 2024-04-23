@@ -5,8 +5,8 @@ import axiosInstance from "../../helpers/axiosInstance.js"
 
 const initialState = {
     isLoggedIn : localStorage.getItem('isLoggedIn') || false,
-    role: localStorage.getItem('role') || " ",
-    data: localStorage.getItem('data') || {}
+    role: localStorage.getItem('role') || null,
+    data: JSON.parse(localStorage.getItem('data')) || {}
 }
 
 export const createAccount = createAsyncThunk("/auth/signup", async (data) => {
@@ -65,15 +65,20 @@ const authSlice = createSlice({
     reducers: {},
     extraReducers: (bulider) => {
         bulider
-        .addCase(login.fulfilled,(state,action) => {
+        .addCase(login.fulfilled, (state, action) => {
             console.log("Payload received:", action.payload);
-            localStorage.setItem('data',JSON.stringify(action?.payload?.user))
-            localStorage.setItem("isLoggedIn",true)
-            localStorage.setItem('role',action?.payload?.data?.user?.role)
-            // console.log("hello",action?.payload?.data?.user?.role);
-            state.isLoggedIn = true;
-            state.data = action?.payload?.data?.user;
-            state.role = action?.payload?.data?.user?.role;
+            if (action.payload.data.user) {
+                localStorage.setItem('data', JSON.stringify(action?.payload?.data?.user));
+                localStorage.setItem("isLoggedIn", true);
+                localStorage.setItem('role', action?.payload?.data?.user.role);
+        
+                state.isLoggedIn = true;
+                state.data = action?.payload?.data?.user;
+                state.role = action?.payload?.data?.user?.role;
+            } else {
+                // Handle the case where user data is undefined
+                console.error("User data is undefined in login.fulfilled");
+            }
         })
         .addCase(logout.fulfilled,(state) => {
             localStorage.clear()
@@ -86,4 +91,4 @@ const authSlice = createSlice({
 
 // export const { } = authSlice.actions
 
-export default authSlice.reducer
+export default authSlice.reducer;

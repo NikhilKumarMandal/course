@@ -17,6 +17,7 @@ import CourseDescription from './pages/Courses/CourseDescription.jsx';
 import Denied from './pages/Denied.jsx';
 import RequrieAuth from './components/RequrieAuth.jsx';
 import CreateCourse from './pages/Courses/CreateCourse.jsx';
+import Profile from './pages/User/Profile.jsx';
 
 
 
@@ -35,6 +36,10 @@ const router = createBrowserRouter(
 
     <Route  element={<RequrieAuth allowedRole={['admin']} /> }>
     <Route path="/course/create" element={<CreateCourse/>}/>
+    </Route>
+
+    <Route  element={<RequrieAuth allowedRole={['admin','user']} /> }>
+    <Route path="/user/profile" element={<Profile/>}/>
     </Route>
     
     </Route>
