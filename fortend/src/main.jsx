@@ -34,7 +34,7 @@ const router = createBrowserRouter(
     <Route path="*" element={<NotFound />}/>
 
     <Route  element={<RequrieAuth allowedRole={['admin']} /> }>
-    <Route path="/create/Course" element={<CreateCourse/>}/>
+    <Route path="/course/create" element={<CreateCourse/>}/>
     </Route>
     
     </Route>
