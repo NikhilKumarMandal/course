@@ -66,12 +66,14 @@ const authSlice = createSlice({
     extraReducers: (bulider) => {
         bulider
         .addCase(login.fulfilled,(state,action) => {
+            console.log("Payload received:", action.payload);
             localStorage.setItem('data',JSON.stringify(action?.payload?.user))
             localStorage.setItem("isLoggedIn",true)
-            localStorage.setItem('role',action?.payload?.user?.role)
+            localStorage.setItem('role',action?.payload?.data?.user?.role)
+            // console.log("hello",action?.payload?.data?.user?.role);
             state.isLoggedIn = true;
-            state.data = action.payload?.user;
-            state.role = action?.payload?.user?.role;
+            state.data = action?.payload?.data?.user;
+            state.role = action?.payload?.data?.user?.role;
         })
         .addCase(logout.fulfilled,(state) => {
             localStorage.clear()
