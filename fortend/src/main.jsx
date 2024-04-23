@@ -13,6 +13,7 @@ import Signup from './pages/Signup.jsx'
 import Login from './pages/Login.jsx';
 import CourseList from './pages/Courses/CourseList.jsx';
 import Contact from './pages/Contact.jsx';
+import CourseDescription from './pages/Courses/CourseDescription.jsx';
 
 
 
@@ -25,6 +26,7 @@ const router = createBrowserRouter(
     <Route path='/login' element={<Login/>} />
     <Route path='/courses' element={<CourseList/>} />
     <Route path='/contact' element={<Contact/>} />
+    <Route path='/course/description/' element={<CourseDescription/>} />
     <Route path="*" element={<NotFound />}/>
     </Route>
   )
