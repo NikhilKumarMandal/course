@@ -32,11 +32,11 @@ const userSchema = new Schema(
         avatar: {
           public_id: {
             type: String,
-            required: true,
+            required: false,
           },
           url: {
             type: String,
-            required: true,
+            required: false,
           },
         },
       

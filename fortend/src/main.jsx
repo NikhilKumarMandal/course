@@ -18,6 +18,7 @@ import Denied from './pages/Denied.jsx';
 import RequrieAuth from './components/RequrieAuth.jsx';
 import CreateCourse from './pages/Courses/CreateCourse.jsx';
 import Profile from './pages/User/Profile.jsx';
+import EditProfile from './pages/User/EditProfile.jsx';
 
 
 
@@ -40,6 +41,7 @@ const router = createBrowserRouter(
 
     <Route  element={<RequrieAuth allowedRole={['admin','user']} /> }>
     <Route path="/user/profile" element={<Profile/>}/>
+    <Route path="/user/editprofile" element={<EditProfile/>}/>
     </Route>
     
     </Route>

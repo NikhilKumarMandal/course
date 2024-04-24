@@ -255,14 +255,14 @@ const getCurrentUser = asyncHandler(async(req,res) => {
 
 const updateAccountDetails = asyncHandler(async(req,res) => {
 
-    const {fullname, email} = req.body
+    const { name } = req.body
 
-    console.log(fullname);
+    console.log(name);
     const avatarLocalPath = req.file?.path
  
     const avatar = await uploadOnCloudinary(avatarLocalPath)
 
-    if (!fullname && !email && !avatar) {
+    if (!name && !avatar) {
         throw new ApiError(400, "at least one field is required")
     }
 
@@ -270,9 +270,11 @@ const updateAccountDetails = asyncHandler(async(req,res) => {
         req.user?._id,
         {
             $set: {
-                fullname,
-                email,
-                avatar: avatar?.url
+                name,
+                avatar: {
+                    public_id: avatar?.public_id,
+                    url: avatar?.url
+                }
             }
         },
         {
@@ -284,44 +286,15 @@ const updateAccountDetails = asyncHandler(async(req,res) => {
         throw new ApiError(404, "User not found");
     }
 
+    user.save()
+
     return res
     .status(200)
     .json(new ApiResponse(200, user, "Account details updated successfully"))
 
 })
 
-const updateUserAvatar = asyncHandler(async(req, res) => {
-    const avatarLocalPath = req.file?.path
 
-    if (!avatarLocalPath) {
-        throw new ApiError(400, "Avatar file is missing")
-    }
-
-    //TODO: delete old image - assignment
-
-    const avatar = await uploadOnCloudinary(avatarLocalPath)
-
-    if (!avatar.url) {
-        throw new ApiError(400, "Error while uploading on avatar")
-        
-    }
-
-    const user = await User.findByIdAndUpdate(
-        req.user?._id,
-        {
-            $set:{
-                avatar: avatar.url
-            }
-        },
-        {new: true}
-    ).select("-password")
-
-    return res
-    .status(200)
-    .json(
-        new ApiResponse(200, user, "Avatar image updated successfully")
-    )
-})
   
 export {
     registerUser,
@@ -331,5 +304,5 @@ export {
     changeCurrentPassword,
     getCurrentUser,
     updateAccountDetails,
-    updateUserAvatar
+
  }
