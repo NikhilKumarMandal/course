@@ -20,12 +20,14 @@ app.use(cookieParser())
 import userRouter from "./routes/user.routes.js"
 import courseRouter from './routes/course.routes.js'
 import contactRouter from './routes/contact.routes.js'
+import paymentRouter from './routes/payment.routes.js'
 
 
 //routes declaration
 app.use("/api/v1/users", userRouter)
 app.use("/api/v1/courses", courseRouter)
 app.use("/api/v1/contact", contactRouter)
+app.use("/api/v1/payment", paymentRouter)
 
 
 
