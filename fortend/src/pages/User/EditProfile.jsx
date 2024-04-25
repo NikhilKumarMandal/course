@@ -13,27 +13,27 @@ function EditProfile() {
 
     const [previewImage,setPreviewImage] = useState('')
 
-    const [updateData,setUpdateData] = useState({
+    const [updatedData,setUpdatedData] = useState({
         name: '',
         avatar: '',
     })
 
-    const handleUserInput = (e) => {
+    const handleUserUpdateInput = (e) => {
         const {name,value} = e.target;
-        setUpdateData({
-          ...updateData,
-          [name]: value || '' 
+        setUpdatedData({
+          ...updatedData,
+          [name]: value 
       });
     }
-
-    const handleUpdateAvatar = (e) => {
+ 
+    const handleUserUpdateImage = (e) => {
         e.preventDefault()
 
         const uploadImage = e.target.files[0]
 
         if (uploadImage) {
-            setUpdateData({
-                ...updateData,
+            setUpdatedData({
+                ...updatedData,
                 avatar: uploadImage
             });
             const fileReader = new FileReader()
@@ -45,37 +45,31 @@ function EditProfile() {
         }
     }
 
-    const updateUserAccount = async (e) => {
-        e.preventDefault()
-
-        if ((!updateData.name && !updateData.avatar) || (updateData.name && updateData.name.trim().length < 5)) {
-            if (!updateData.name && !updateData.avatar) {
-                toast.error("At least one field is required");
-            } else if (updateData.name.trim().length < 5) {
-                toast.error("Name should be at least 5 characters");
-            }
+    const handleUpdatedUserAccount = async (e) => {
+        e.preventDefault();
+        if (!updatedData.name || !updatedData.avatar) {
+            toast.error("Please fill all the details");
             return;
         }
-        console.log("Submitting:", updateData);
+        if (!(updatedData.avatar instanceof File)) {
+            toast.error("Please select a valid image file for the avatar");
+            return;
+        }
+        // Continue with form submission
         const formData = new FormData();
-        if (updateData.name.trim()) {
-            formData.append("name", updateData.name.trim());
-        }
-        if (updateData.avatar) {
-            formData.append("avatar", updateData.avatar);
-        }
-
-        await dispatch(updateProfile(updateData))
-        await dispatch(getUserData())
-      
-        navigate('/user/profile')
+        formData.append("name", updatedData.name);
+        formData.append("avatar", updatedData.avatar);
+        const response = await dispatch(updateProfile(formData));
+        if(response?.payload?.success)
+        await dispatch(getUserData());
+        navigate("/user/profile");
     }
 
   return (
     <Header>
             <div className="flex items-center justify-center h-[100vh]">
                 <form
-                    onSubmit={updateUserAccount}
+                    onSubmit={handleUpdatedUserAccount}
                     noValidate
                     className="flex flex-col justify-center gap-5 rounded-lg p-4 text-white w-80 min-h-[26rem] shadow-[0_0_10px_black]"
                 >
@@ -92,7 +86,7 @@ function EditProfile() {
                         )}
                     </label>
                     <input 
-                        onChange={handleUpdateAvatar}
+                        onChange={handleUserUpdateImage}
                         className="hidden"
                         type="file"
                         id="image_uploads"
@@ -107,8 +101,8 @@ function EditProfile() {
                             id="name"
                             placeholder="Enter your name"
                             className="bg-transparent px-2 py-1 border"
-                            value={updateData.name}
-                            onChange={handleUserInput}
+                            value={updatedData.name}
+                            onChange={handleUserUpdateInput}
                         
                         />
                     </div>

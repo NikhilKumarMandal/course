@@ -4,6 +4,9 @@ import { Link, useNavigate } from 'react-router-dom';
 import Footer from '../Footer/Footer';
 import { useDispatch,useSelector } from 'react-redux'
 import { logout } from '../../redux/slices/AuthSlice.js'
+import { useEffect } from 'react';
+
+
 
 function Header({children}) {
 
@@ -38,8 +41,12 @@ function Header({children}) {
     drawerSide[0].style.width = '0';
 }
 
+
+
   return (
+    
     <div className="min-h-[90vh]">
+
     <div className="drawer absolute left-0 z-50 w-fit">
         <input className="drawer-toggle" id="my-drawer" type="checkbox" />
         <div className="drawer-content">

@@ -1,12 +1,16 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import Header from "../../components/Header/Header";
-import { useDispatch, useSelector } from 'react-redux';
+import {  useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
+
+
 
 function Profile() {
   const dispatch = useDispatch()
-
   const userData = useSelector((state) => state?.auth?.data)
+  
+  
+ 
   return (
     <Header>
       <div className="min-h-[90vh] flex items-center justify-center">

@@ -3,7 +3,7 @@ import { ApiResponse } from "../utils/ApiResponse.js"
 import { asyncHandler } from "../utils/asyncHandler.js"
 import { User } from "../models/user.model.js"
 import jwt from "jsonwebtoken" 
-import {uploadOnCloudinary} from "../utils/cloudinary.js"
+import {uploadOnCloudinary,deleteFromCloudinary} from "../utils/cloudinary.js"
 
 const generateAccessAndRefereshTokens = async(userId) =>{
     try {
@@ -164,55 +164,53 @@ const logoutUser = asyncHandler(async(req, res) => {
 })
 
 const refreshAccessToken = asyncHandler(async (req, res) => {
-    // Get the refresh token from cookies or request body
-    const incomingRefreshToken = req.cookies?.refreshToken || req.body?.refreshToken;
-
+    const incomingRefreshToken =
+      req.cookies.refreshToken || req.body.refreshToken;
+  
     if (!incomingRefreshToken) {
-        // Throw an error if refresh token is missing
-        throw new ApiError(401, "Unauthorized request");
+      throw new ApiError(401, "Unauthorized request");
     }
-
-    // Verify the incoming refresh token
-    const decodedToken = jwt.verify(incomingRefreshToken, process.env.REFRESH_TOKEN_SECRET);
-
-    // console.log(req.cookies.refreshToken);
-
-    // Find the user based on the decoded token's ID
-    const user = await User.findById(decodedToken?._id);
-
-    if (!user) {
-        // Throw an error if user is not found
+  
+    try {
+      const decodedToken = jwt.verify(
+        incomingRefreshToken,
+        process.env.REFRESH_TOKEN_SECRET
+      );
+      const user = await User.findById(decodedToken?._id);
+      if (!user) {
         throw new ApiError(401, "Invalid refresh token");
-    }
-
-    // Compare the decoded refresh token with user's refresh token
-    if (decodedToken !== user?.refreshToken) {
-        // Throw an error if refresh tokens don't match
+      }
+  
+      // check if incoming refresh token is same as the refresh token attached in the user document
+      // This shows that the refresh token is used or not
+      // Once it is used, we are replacing it with new refresh token below
+      if (incomingRefreshToken !== user?.refreshToken) {
+        // If token is valid but is used already
         throw new ApiError(401, "Refresh token is expired or used");
-    }
-
-    const options = {
+      }
+      const options = {
         httpOnly: true,
-        secure: true
-    };
-
-    // Generate new access and refresh tokens
-    const { accessToken, newRefreshToken } = await generateAccessAndRefreshTokens(user._id);
-
-    // Return the new tokens in response
-    return res
+        secure: process.env.NODE_ENV === "production",
+      };
+  
+      const { accessToken, refreshToken: newRefreshToken } =
+        await generateAccessAndRefereshTokens(user?._id);
+  
+      return res
         .status(200)
         .cookie("accessToken", accessToken, options)
         .cookie("refreshToken", newRefreshToken, options)
         .json(
-            new ApiResponse(
-                200,
-                { accessToken, refreshToken: newRefreshToken },
-                "Access token refreshed"
-            )
+          new ApiResponse(
+            200,
+            { accessToken, refreshToken: newRefreshToken },
+            "Access token refreshed"
+          )
         );
-
-});
+    } catch (error) {
+      throw new ApiError(401, error?.message || "Invalid refresh token");
+    }
+  });
 
 const changeCurrentPassword = asyncHandler(async(req,res) => {
 
@@ -257,15 +255,24 @@ const updateAccountDetails = asyncHandler(async(req,res) => {
 
     const { name } = req.body
 
-    console.log(name);
+    const prevUser = await User.findById(req.user._id)
+
+    console.log(prevUser);
+        // Delete the old avatar from Cloudinary
+        const deleteOldAvatar = await deleteFromCloudinary(prevUser.avatar.public_id, 'image');
+
+        if (!deleteOldAvatar) {
+                    throw new ApiError(500, "Error deleting old avatar");
+        }
+
     const avatarLocalPath = req.file?.path
  
     const avatar = await uploadOnCloudinary(avatarLocalPath)
 
-    if (!name && !avatar) {
-        throw new ApiError(400, "at least one field is required")
+    if (!name || !avatar) {
+        throw new ApiError(400, "all fields are requried")
     }
-
+   
     const user = await User.findByIdAndUpdate(
         req.user?._id,
         {
@@ -286,7 +293,7 @@ const updateAccountDetails = asyncHandler(async(req,res) => {
         throw new ApiError(404, "User not found");
     }
 
-    user.save()
+    await user.save()
 
     return res
     .status(200)
@@ -304,5 +311,4 @@ export {
     changeCurrentPassword,
     getCurrentUser,
     updateAccountDetails,
-
  }

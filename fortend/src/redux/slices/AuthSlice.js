@@ -59,12 +59,10 @@ export const logout = createAsyncThunk("/auth/logout", async (data) => {
 
 export const updateProfile = createAsyncThunk("/user/update-profile", async (data) => {
     try {
-        const res = await axiosInstance.put('users/update-account', data);
-        toast.promise(res, {
-            loading: "Wait! Update profile in progress...",
-            success: "Updated successfully!",
-            error: "Failed to update account"
-        });
+        const res = await axiosInstance.patch('users/update-account', data);
+        console.log("Res:",res);
+        toast.success("Updated successfully!"); 
+        console.log(res.data);
         return (await res).data;
     } catch(error) {
         toast.error(error?.response?.data?.message || "Unknown error occurred");
@@ -94,30 +92,34 @@ const authSlice = createSlice({
                 localStorage.setItem('data', JSON.stringify(action.payload.data));
                 localStorage.setItem("isLoggedIn", true);
                 localStorage.setItem('role', action.payload.data.role);
+                console.log(localStorage.setItem('role', action.payload.data.role));
         
                 state.isLoggedIn = true;
                 state.data = action.payload.data;
-                state.role = action.payload.data.role;
+                state.role = action.payload?.data?.role;
                 console.log("Redux state after update:", state);
             } else {
                 // Handle the case where registration failed
                 console.error("User registration failed:", action.payload.message);
             }
         })
-        
         .addCase(login.fulfilled, (state, action) => {
-            console.log("Payload received:", action.payload);
-            if (action.payload.data.user) {
-                localStorage.setItem('data', JSON.stringify(action?.payload?.data?.user));
+            console.log("Payload received in login.fulfilled:", action.payload);
+            if (action.payload.success) {
+                // Update localStorage with user data and authentication status
+                localStorage.setItem('data', JSON.stringify(action.payload.data));
                 localStorage.setItem("isLoggedIn", true);
-                localStorage.setItem('role', action?.payload?.data?.user.role);
+                localStorage.setItem('role', action.payload.data.user.role);
         
+                // Update Redux state with user data and authentication status
                 state.isLoggedIn = true;
-                state.data = action?.payload?.data?.user;
-                state.role = action?.payload?.data?.user?.role;
+                state.role = action.payload.data.user.role;
+                state.data = action.payload.data.user; // Assuming the user data is nested under 'user'
+        
+                console.log("Redux state after update:", state);
             } else {
-                // Handle the case where user data is undefined
-                console.error("User data is undefined in login.fulfilled");
+                // Handle the case where login failed
+                console.error("User login failed:", action.payload.message);
             }
         })
         .addCase(logout.fulfilled,(state) => {
@@ -125,6 +127,26 @@ const authSlice = createSlice({
             state.isLoggedIn = false;
             state.data = {};
             state.role = '';
+        })
+        .addCase(updateProfile.fulfilled, (state, action) => {
+            if (action.payload.success) {
+                // Update localStorage with user data and authentication status
+                localStorage.setItem('data', JSON.stringify(action.payload.data));
+                localStorage.setItem("isLoggedIn", true);
+                localStorage.setItem('role', action.payload.data.role);
+                
+                // Create a new state object with updated data
+                return {
+                    ...state,
+                    isLoggedIn: true,
+                    data: action.payload.data,
+                    role: action.payload.data.role,
+                };
+            } else {
+                // Handle the case where profile update failed
+                console.error("Profile update failed:", action.payload.message);
+                return state; // Return the current state without changes
+            }
         })
         .addCase(getUserData.fulfilled,(state,action) => {
             if (action.payload?.data?.user) {

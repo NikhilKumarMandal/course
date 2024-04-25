@@ -86,6 +86,14 @@ const getCourseLectures = asyncHandler(async(req,res) => {
         ))
 })
 
+const updateCourse = asyncHandler(async(req,res) => {
+
+})
+
+const removeCourse = asyncHandler(async(req,res) => {
+
+})
+
 const addLectureIntoCourse = asyncHandler(async(req,res) => {
     const courseId = req.params._id;
 
@@ -139,5 +147,7 @@ export {
     createCourse,
     getAllCourses,
     getCourseLectures,
-    addLectureIntoCourse
+    addLectureIntoCourse,
+    updateCourse,
+    removeCourse
 }
