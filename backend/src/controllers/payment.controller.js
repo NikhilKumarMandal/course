@@ -13,7 +13,7 @@ const getRazprpayApiKey = asyncHandler(async(req,res) => {
     .json(
         new ApiResponse(
             200,
-            req.payment,
+            {key: process.env.RAZORPAY_KEY_ID},
             "User fetched successfully"
             )
         )
