@@ -20,6 +20,8 @@ import CreateCourse from './pages/Courses/CreateCourse.jsx';
 import Profile from './pages/User/Profile.jsx';
 import EditProfile from './pages/User/EditProfile.jsx';
 import Checkout from './pages/Payment/Checkout.jsx';
+import CheckoutSuccess from './pages/Payment/CheckoutSuccess.jsx';
+import CheckoutFailure from './pages/Payment/CheckoutFailure.jsx';
 
 
 
@@ -44,6 +46,8 @@ const router = createBrowserRouter(
     <Route path="/user/profile" element={<Profile/>}/>
     <Route path="/user/editprofile" element={<EditProfile/>}/>
     <Route path="/checkout" element={<Checkout/>}/>
+    <Route path="/checkout/success" element={<CheckoutSuccess/>}/>
+    <Route path="/checkout/fail" element={<CheckoutFailure/>}/>
     </Route>
     
     </Route>
