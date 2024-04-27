@@ -3,7 +3,7 @@ import {verifyJWT} from "../middlewares/auth.middleware.js"
 
 import {
     getRazprpayApiKey,
-    buyScription,
+    buySubscription,
     verifySubscription,
     cancelSubscription,
     allPayment
@@ -22,9 +22,9 @@ router
 
 router
     .route('/subscribe')
-    .post(
+    .get(
         verifyJWT,
-        buyScription
+        buySubscription
     )
 
 router

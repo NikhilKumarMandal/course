@@ -17,7 +17,7 @@ app.use(express.static("public"))
 app.use(cookieParser())
 
 
-export const razorpay = new Razorpay({
+export const nikhil = new Razorpay({
     key_id: process.env.RAZORPAY_KEY_ID,
     key_secret: process.env.RAZORPAY_SECRET,
   });

@@ -1,4 +1,4 @@
-import { razorpay } from "../app.js"
+import { nikhil } from "../app.js"
 import { User } from "../models/user.model.js"
 import { ApiError } from "../utils/ApiError.js"
 import { ApiResponse } from "../utils/ApiResponse.js"
@@ -8,43 +8,50 @@ import { Payment } from "../models/payment.model.js"
 
 
 const getRazprpayApiKey = asyncHandler(async(req,res) => {
-    return res
-    .status(200)
-    .json(
-        new ApiResponse(
-            200,
-            {key: process.env.RAZORPAY_KEY_ID},
-            "User fetched successfully"
-            )
-        )
+    res.status(200).json({
+        status: 200,
+        data: { key: process.env.RAZORPAY_KEY_ID },
+        message: "Razorpay API key fetched successfully"
+    });
 })
 
-const buyScription = asyncHandler(async(req,res) => {
-    
-    const user = await User.findById(req.user._id)
+const buySubscription = asyncHandler(async (req, res) => {
+    const user = await User.findById(req.user._id);
 
     if (!user) {
-        throw new ApiError(400,"User does not exists!!!")
+        return res.status(404).json({ message: "User does not exist!!!" });
     }
 
     if (user.role === 'admin') {
-        throw new ApiError(400,"Admin cannot purchase Subscription!!")
+        return res.status(403).json({ message: "Admin cannot purchase a subscription!!" });
     }
 
-    const subscription = await razorpay.subscriptions.create({
-        plan_id: process.env.PLAN_ID,
-        customer_notify: 1,      
-    })
+    try {
+        const subscription = await nikhil.subscriptions.create({
+            plan_id: process.env.PLAN_ID,
+            customer_notify: 1,
+            total_count: 1
+        });
     
+        if (!subscription || !subscription.id) {
+            return res.status(500).json({ message: "Failed to create subscription" });
+        }
+    
+        user.subscription.id = subscription.id;
+        user.subscription.status = subscription.status;
+        await user.save();
+    
+        return res.status(200).json({
+            status: 200,
+            data: { subscriptionId: subscription.id },
+            message: "Subscribed Successfully"
+        });
+    } catch (error) {
+        console.error("Error buying subscription:", error);
+        return res.status(500).json({ message: error?.message || "Something went wrong" });
+    }
+});
 
-    user.subscription.id = subscription.id
-    user.subscription.status = subscription.status
-
-    await user.save()
-
-    return res.status(200).json(new ApiResponse(200, subscription.id, "Subscribed Successfully"));
-
-})
 
 const verifySubscription = asyncHandler(async(req,res) => {
 
@@ -124,7 +131,7 @@ const allPayment = asyncHandler(async(req,res) => {
 
 export {
     getRazprpayApiKey,
-    buyScription,
+    buySubscription,
     verifySubscription,
     cancelSubscription,
     allPayment

@@ -1,12 +1,12 @@
 import React, { useEffect } from 'react'
-import { useLocation } from 'react-router-dom'
+import { useLocation,useNavigate } from 'react-router-dom'
 import Header from '../../components/Header/Header';
 import { useSelector } from 'react-redux';
 
 
 function CourseDescription() {
     const {state} = useLocation()
-
+    const navigate = useNavigate();
     const { role,data } = useSelector((state) => state.auth)
 
     useEffect(() => {
