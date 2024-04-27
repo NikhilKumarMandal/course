@@ -28,7 +28,7 @@ function Checkout() {
   const options = {
     key: razorpayKey,
     subscription_id: subscription_id,
-    name: "Coursify Pvt. Ltd.",
+    name: "DreamForge Pvt. Ltd.",
     description: "Subscription",
     theme: {
       color: '#F37254'
