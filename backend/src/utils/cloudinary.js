@@ -24,6 +24,7 @@ const uploadOnCloudinary = async (localFilePath) => {
     }
 }
 
+
 const deleteFromCloudinary = async (public_id, resource_type) => {
     try {
         if (!public_id) {
@@ -50,5 +51,5 @@ const deleteFromCloudinary = async (public_id, resource_type) => {
 
 
 export { uploadOnCloudinary, 
-         deleteFromCloudinary
+         deleteFromCloudinary,
     }

@@ -22,7 +22,7 @@ const courseSchema = new mongoose.Schema({
                 type: String,
                 required: true
             },
-            video: {
+            avatar: {
                 public_id: {
                   type: String,
                   required: true,

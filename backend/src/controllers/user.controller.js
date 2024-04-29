@@ -47,7 +47,7 @@ const registerUser = asyncHandler( async (req, res) => {
     }
 
     if (!avatarLocalPath) {
-        throw new ApiError(400, "Thumbnail file is required")
+        throw new ApiError(400, "Avvatar file is required")
     }
 
     const avatar = await uploadOnCloudinary(avatarLocalPath);

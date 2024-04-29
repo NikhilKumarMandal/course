@@ -1,8 +1,9 @@
 import { ApiError } from '../utils/ApiError.js'
 import { ApiResponse } from "../utils/ApiResponse.js";
 import { asyncHandler } from "../utils/asyncHandler.js"
-import { uploadOnCloudinary } from "../utils/cloudinary.js"
+import { uploadOnCloudinary} from "../utils/cloudinary.js"
 import { Course } from '../models/course.model.js';
+
 
 
 const createCourse = asyncHandler(async(req,res) => {
@@ -69,9 +70,9 @@ const getAllCourses = asyncHandler(async(req,res) => {
 })
 
 const getCourseLectures = asyncHandler(async(req,res) => {
-    const courseId = req.params._id;
+    const {id} = req.params;
 
-    const course = await Course.findById(courseId)
+    const course = await Course.findById(id)
     if (!course) {
         throw new ApiError(404, "Course not found")
     }
@@ -86,61 +87,58 @@ const getCourseLectures = asyncHandler(async(req,res) => {
         ))
 })
 
-const updateCourse = asyncHandler(async(req,res) => {
-
-})
-
-const removeCourse = asyncHandler(async(req,res) => {
-
-})
-
-const addLectureIntoCourse = asyncHandler(async(req,res) => {
-    const courseId = req.params._id;
-
+const addLectureIntoCourse = asyncHandler(async(req,res) => {  
+    const {id} = req.params
     const {title,description} = req.body
 
+    const course = await Course.findById(id)
+    if (!course) {
+        throw new ApiError(400,"Course Does not exists")
+    }
+    ;
+
     if (
-        [title,description].some((field) => field.trim() === "" )
+        [title,description].some((field) => field?.trim() === '')
     ) {
         throw new ApiError(400,"All fields are requried")
     }
 
-    const course = await Course.findById(courseId)
-    if (!course) {
-        throw new ApiError(404, "Course not found")
+    let avatarLocalPath;
+    console.log(avatarLocalPath);
+    if (req.files && Array.isArray(req.files.avatar) && req.files.avatar.length > 0) {
+        avatarLocalPath = req.files.avatar[0].path
     }
 
-    let videoLocalPath;
-    if (req.files && Array.isArray(req.files.video) && req.files.video.length > 0) {
-        videoLocalPath = req.files.video[0].path
-    }
-    
-    if (!videoLocalPath) {
-        throw new ApiError(400, "Video file is required")
+    if (!avatarLocalPath) {
+        throw new ApiError(400, "Avvatar file is required")
     }
 
-    const video = await uploadOnCloudinary(videoLocalPath);
+    const avatar = await uploadOnCloudinary(avatarLocalPath);
 
-    course.lectures.push({
+    if (!avatar) {
+        throw new ApiError(400, "Avatar file is required")
+    }
+
+
+    await course.lectures.push({
         title,
         description,
-        video: {
-          public_id: video.public_id,
-          url: video.secure_url,
+        avatar: {
+          public_id: avatar.public_id,
+          url: avatar.url,
         },
-      });
-    
-      course.numOfVideos = course.lectures.length;
-    
-      await course.save();
+    })
 
-      return res.json(
+    course.numOfVideos = course.lectures.length
+
+    await course.save()
+
+    return res.json(
         new ApiResponse(
             200,
             course,
             "Add Lecture successfully"
         ))
-
 })
 
 export {
@@ -148,6 +146,4 @@ export {
     getAllCourses,
     getCourseLectures,
     addLectureIntoCourse,
-    updateCourse,
-    removeCourse
 }
