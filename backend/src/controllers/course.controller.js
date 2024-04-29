@@ -42,7 +42,7 @@ const createCourse = asyncHandler(async(req,res) => {
         throw new ApiError(500,"Something went while create course")
     }
 
-    return res.json(
+    return res.status(200).json(
         new ApiResponse(
             200,
             course,
@@ -60,7 +60,7 @@ const getAllCourses = asyncHandler(async(req,res) => {
 
   const courses = await Course.find(filter).select("-lectures");
 
-  return res.json(
+  return res.status(200).json(
     new ApiResponse(
         200,
         courses,
@@ -79,7 +79,7 @@ const getCourseLectures = asyncHandler(async(req,res) => {
     course.views += 1;
     await course.save()
 
-    return res.json(
+    return res.status(200).json(
         new ApiResponse(
             200,
             course,
@@ -133,7 +133,7 @@ const addLectureIntoCourse = asyncHandler(async(req,res) => {
 
     await course.save()
 
-    return res.json(
+    return res.status(200).json(
         new ApiResponse(
             200,
             course,
@@ -141,9 +141,34 @@ const addLectureIntoCourse = asyncHandler(async(req,res) => {
         ))
 })
 
+const deleteLectureFromCourse = asyncHandler(async(req,res) => {
+    const { courseId, lectureId } = req.params;
+
+    const course = await Course.findById(courseId);
+    if (!course) {
+        throw new ApiError(404, "Course not found");
+    }
+
+    // Check if the lecture exists in the course
+    const lectureExists = course.lectures.some(lecture => lecture._id.toString() === lectureId);
+    if (!lectureExists) {
+        throw new ApiError(404, "Lecture not found in this course");
+    }
+
+    // Remove the lecture from the lectures array
+    course.lectures = course.lectures.filter(lecture => lecture._id.toString() !== lectureId);
+
+    course.numOfVideos = course.lectures.length
+
+    await course.save();
+
+    return res.status(200).json(new ApiResponse(200,{courseId,lectureId},"Leacture delete Successfully"))
+})
+
 export {
     createCourse,
     getAllCourses,
     getCourseLectures,
     addLectureIntoCourse,
+    deleteLectureFromCourse
 }

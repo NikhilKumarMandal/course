@@ -3,7 +3,8 @@ import {
     createCourse,
     getAllCourses,
     getCourseLectures,
-    addLectureIntoCourse
+    addLectureIntoCourse,
+    deleteLectureFromCourse
 } from "../controllers/course.controller.js"
 import {verifyJWT} from "../middlewares/auth.middleware.js"
 import {upload} from "../middlewares/multer.middleware.js"
@@ -29,6 +30,8 @@ router
     .get(getCourseLectures)
 
 router.route("/:id").post(verifyJWT,upload.fields([{name:"avatar"}]), addLectureIntoCourse)
+
+router.route('/:courseId/lectures/:lectureId').delete(verifyJWT,deleteLectureFromCourse)
 
 
 

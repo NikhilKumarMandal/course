@@ -22,6 +22,7 @@ import EditProfile from './pages/User/EditProfile.jsx';
 import Checkout from './pages/Payment/Checkout.jsx';
 import CheckoutSuccess from './pages/Payment/CheckoutSuccess.jsx';
 import CheckoutFailure from './pages/Payment/CheckoutFailure.jsx';
+import DispalyLecture from './pages/Dashboard/DispalyLecture.jsx';
 
 
 
@@ -48,6 +49,7 @@ const router = createBrowserRouter(
     <Route path="/checkout" element={<Checkout/>}/>
     <Route path="/checkout/success" element={<CheckoutSuccess/>}/>
     <Route path="/checkout/fail" element={<CheckoutFailure/>}/>
+    <Route path="/course/displaylectures" element={<DispalyLecture/>}/>
     </Route>
     
     </Route>

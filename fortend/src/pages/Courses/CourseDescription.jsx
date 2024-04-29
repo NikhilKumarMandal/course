@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import { useLocation,useNavigate } from 'react-router-dom'
 import Header from '../../components/Header/Header';
 import { useSelector } from 'react-redux';
@@ -9,9 +9,7 @@ function CourseDescription() {
     const navigate = useNavigate();
     const { role,data } = useSelector((state) => state.auth)
 
-    useEffect(() => {
-        
-    },[])
+    
   return (
     <Header>
 <div className="min-h-[90vh] pt-12 px-20 flex flex-col items-center justify-center text-white">
