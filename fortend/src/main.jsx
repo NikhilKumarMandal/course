@@ -28,6 +28,7 @@ import AdminDashboard from './pages/Dashboard/AdminDashboard.jsx';
 
 
 
+
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route>
@@ -38,6 +39,7 @@ const router = createBrowserRouter(
     <Route path='/denied' element={<Denied/>} />
     <Route path='/courses' element={<CourseList/>} />
     <Route path='/contact' element={<Contact/>} />
+    
     <Route path='/course/description/' element={<CourseDescription/>} />
     <Route path="*" element={<NotFound />}/>
 
