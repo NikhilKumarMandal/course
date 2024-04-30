@@ -120,14 +120,35 @@ const cancelSubscription = asyncHandler(async(req,res) => {
 const allPayment = asyncHandler(async(req,res) => {
     const {count} = req.query
 
-    const subscription = await razorpay.subscriptions.all({
+    const finalMonths = await getFinalMonths();
+    const monthlySalesRecord = await getMonthlySalesRecord();
+
+    const subscription = await nikhil.subscriptions.all({
         count: count || 10
     })
 
-    return res.status(200).json(new ApiResponse(200,subscription,"Feacted All data successfully"))
-
+    return res.status(200).json(new ApiResponse(200, {
+        subscription,
+        finalMonths,
+        monthlySalesRecord
+    }, "Fetched All data successfully"));
 
 })
+
+const getFinalMonths = async () => {
+    // Your logic to fetch final months data
+    return ['January', 'February', 'March']; // Example data
+};
+
+// Function to fetch monthly sales record from database or API
+const getMonthlySalesRecord = async () => {
+    // Your logic to fetch monthly sales record data
+    return [
+        { month: 'January', sales: 100 },
+        { month: 'February', sales: 150 },
+        { month: 'March', sales: 200 }
+    ]; // Example data
+};
 
 export {
     getRazprpayApiKey,

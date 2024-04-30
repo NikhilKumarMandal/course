@@ -48,12 +48,11 @@ export const verifyUserPayment = createAsyncThunk("payments/verify", async (data
 
 export const getPaymentRecord = createAsyncThunk("payments/record", async () => {
     try {
-        const response = await axiosInstance.get("/payments?count=100");
-        toast.promise(response, {
-            loading: "Getting the payment records",
-            success: (data) => data?.data?.message || "Success",
-            error: "Failed to get payment records"
-        });
+        const response = await axiosInstance.get("payment/");
+        console.log("Res:",res);
+        toast.success("Updated successfully!"); 
+        console.log(res.data);
+        return (await res).data;
         return response.data;
     } catch(error) {
         toast.error("Operation failed");
@@ -99,6 +98,7 @@ const razorpaySlice = createSlice({
             state.isPaymentVerified = false;
         })
         .addCase(getPaymentRecord.fulfilled, (state, action) => {
+            console.log("Payload received in getPaymentRecord.fulfilled:", action.payload);
             const { allPayments, finalMonths, monthlySalesRecord } = action.payload;
             state.allPayments = allPayments || {};
             state.finalMonths = finalMonths || {};

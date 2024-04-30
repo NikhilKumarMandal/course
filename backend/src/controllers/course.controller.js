@@ -3,6 +3,7 @@ import { ApiResponse } from "../utils/ApiResponse.js";
 import { asyncHandler } from "../utils/asyncHandler.js"
 import { uploadOnCloudinary} from "../utils/cloudinary.js"
 import { Course } from '../models/course.model.js';
+import { Stats } from '../models/stats.model.js';
 
 
 
@@ -67,6 +68,18 @@ const getAllCourses = asyncHandler(async(req,res) => {
         "Course fetched successfully"
     ))
 
+})
+
+const deleteCourse = asyncHandler(async(req,res) => {
+    const {id} = req.params
+
+    const course = await Course.findByIdAndDelete(id)
+
+    if (!course) {
+        throw new ApiError(404,"Course not found")
+    }
+
+    return res.status(200).json(new ApiResponse(200,{},"Course delete successfully"))
 })
 
 const getCourseLectures = asyncHandler(async(req,res) => {
@@ -165,10 +178,37 @@ const deleteLectureFromCourse = asyncHandler(async(req,res) => {
     return res.status(200).json(new ApiResponse(200,{courseId,lectureId},"Leacture delete Successfully"))
 })
 
+// Course.watch().on("change", async () => {
+//     try {
+//       const stats = await Stats.find({}).sort({ createdAt: "desc" }).limit(1);
+  
+//       if (stats.length > 0) {
+//         const courses = await Course.find({});
+  
+//         let totalViews = 0;
+  
+//         for (let i = 0; i < courses.length; i++) {
+//           totalViews += courses[i].views;
+//         }
+//         stats[0].views = totalViews;
+//         stats[0].createdAt = new Date(Date.now());
+  
+//         await stats[0].save();
+//       } else {
+//         console.error("No stats found.");
+//       }
+//     } catch (error) {
+//       console.error("Error occurred:", error);
+//     }
+//   });
+  
+  
+
 export {
     createCourse,
     getAllCourses,
     getCourseLectures,
     addLectureIntoCourse,
-    deleteLectureFromCourse
+    deleteLectureFromCourse,
+    deleteCourse
 }

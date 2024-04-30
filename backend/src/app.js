@@ -2,7 +2,8 @@ import express from "express"
 import cors from "cors"
 import cookieParser from "cookie-parser"
 import Razorpay from 'razorpay'
-
+import nodeCron from 'node-cron'
+import { Stats } from "./models/stats.model.js"
 
 const app = express()
 
@@ -16,6 +17,20 @@ app.use(express.urlencoded({extended: true, limit: "116kb"}))
 app.use(express.static("public"))
 app.use(cookieParser())
 
+nodeCron.schedule("0 0 0 1 * *",async () => {
+  try {
+    
+    await Stats.create({})
+  } catch (error) {
+    console.log(error);
+  }
+})
+
+const temp = async() => {
+  await Stats.create({})
+}
+
+temp()
 
 export const nikhil = new Razorpay({
     key_id: process.env.RAZORPAY_KEY_ID,

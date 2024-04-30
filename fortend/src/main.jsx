@@ -24,6 +24,7 @@ import CheckoutSuccess from './pages/Payment/CheckoutSuccess.jsx';
 import CheckoutFailure from './pages/Payment/CheckoutFailure.jsx';
 import DispalyLecture from './pages/Dashboard/DispalyLecture.jsx';
 import AddLecture from './pages/Dashboard/AddLecture.jsx';
+import AdminDashboard from './pages/Dashboard/AdminDashboard.jsx';
 
 
 
@@ -43,6 +44,7 @@ const router = createBrowserRouter(
     <Route  element={<RequrieAuth allowedRole={['admin']} /> }>
     <Route path="/course/create" element={<CreateCourse/>}/>
     <Route path="/course/addlecture" element={<AddLecture/>}/>
+    <Route path="/admin/dashboard" element={<AdminDashboard/>}/>
     </Route>
 
     <Route  element={<RequrieAuth allowedRole={['admin','user']} /> }>

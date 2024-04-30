@@ -1,10 +1,13 @@
 import React from 'react'
 import Header from '../components/Header/Header.jsx'
 import { Link } from "react-router-dom";
+import { AuroraHero } from '../components/AuroraHero.jsx';
 
 function Home() {
   return (
     <Header>
+
+        <AuroraHero/>
          <div className="pt-10 text-white flex items-center justify-center gap-10 mx-16 h-[90vh]">
                 <div className="w-1/2 space-y-6">
                     <h1 className="text-5xl font-semibold">
