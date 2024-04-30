@@ -23,6 +23,7 @@ import Checkout from './pages/Payment/Checkout.jsx';
 import CheckoutSuccess from './pages/Payment/CheckoutSuccess.jsx';
 import CheckoutFailure from './pages/Payment/CheckoutFailure.jsx';
 import DispalyLecture from './pages/Dashboard/DispalyLecture.jsx';
+import AddLecture from './pages/Dashboard/AddLecture.jsx';
 
 
 
@@ -41,6 +42,7 @@ const router = createBrowserRouter(
 
     <Route  element={<RequrieAuth allowedRole={['admin']} /> }>
     <Route path="/course/create" element={<CreateCourse/>}/>
+    <Route path="/course/addlecture" element={<AddLecture/>}/>
     </Route>
 
     <Route  element={<RequrieAuth allowedRole={['admin','user']} /> }>
@@ -50,6 +52,7 @@ const router = createBrowserRouter(
     <Route path="/checkout/success" element={<CheckoutSuccess/>}/>
     <Route path="/checkout/fail" element={<CheckoutFailure/>}/>
     <Route path="/course/displaylectures" element={<DispalyLecture/>}/>
+    
     </Route>
     
     </Route>
