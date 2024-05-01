@@ -111,10 +111,14 @@ const loginUser = asyncHandler(async (req, res) =>{
 
    const loggedInUser = await User.findById(user._id).select("-password");
 
-    const options = {
-        secure: true,
-        sameSite: 'None'
-    }
+   const options = {
+    httpOnly: true, 
+    secure: true,
+    secure: isProduction, 
+    sameSite: 'None',
+    path: '/', 
+    maxAge: 24 * 60 * 60 * 1000 
+};
 
     return res
     .status(200)
