@@ -1,6 +1,9 @@
 import axios from 'axios'
 
-const BASE_URL = 'https://course-2.onrender.com/api/v1'
+const BASE_URL = 'hhttps://course-2.onrender.com/api/v1'
+
+
+
 
 const axiosInstance = axios.create();
 
