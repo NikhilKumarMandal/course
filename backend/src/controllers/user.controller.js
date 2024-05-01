@@ -109,7 +109,7 @@ const loginUser = asyncHandler(async (req, res) =>{
 
    const {accessToken, refreshToken} = await generateAccessAndRefereshTokens(user._id)
 
-   const loggedInUser = await User.findById(user._id).select("-password -refreshToken");
+   const loggedInUser = await User.findById(user._id).select("-password");
 
     const options = {
         httpOnly: true,
@@ -180,14 +180,14 @@ const refreshAccessToken = asyncHandler(async (req, res) => {
       if (!user) {
         throw new ApiError(401, "Invalid refresh token");
       }
-  
-      // check if incoming refresh token is same as the refresh token attached in the user document
-      // This shows that the refresh token is used or not
-      // Once it is used, we are replacing it with new refresh token below
+      
+      console.log(user);
+     
       if (incomingRefreshToken !== user?.refreshToken) {
         // If token is valid but is used already
         throw new ApiError(401, "Refresh token is expired or used");
       }
+      
       const options = {
         httpOnly: true,
         secure: process.env.NODE_ENV === "production",
