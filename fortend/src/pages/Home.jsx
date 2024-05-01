@@ -7,7 +7,7 @@ import hello from '../assets/hello.png'
 import BarPoll from '../components/BarPoll.jsx';
 import piyush from '../assets/piyush.png'
 import yuvraj from '../assets/yuvraj.png'
-import alex from '../assets/alex.png'
+import ayush from '../assets/ayush.jpg'
 
 
 function Home() {
@@ -104,7 +104,7 @@ function Home() {
 		</div>
 		<div className="grid w-full grid-cols-1 gap-6 md:grid-cols-2">
 			<div className="flex space-x-6">
-				<img alt="" className="flex-1 flex-shrink-0 object-cover h-56 mb-4 bg-center rounded-sm dark:bg-gray-500" src="https://avatars.githubusercontent.com/u/154744834?v=4" />
+				<img alt="" className="flex-1 flex-shrink-0 object-contain h-56 mb-4 bg-center rounded-sm dark:bg-gray-500" src="https://avatars.githubusercontent.com/u/154744834?v=4" />
 				<div className="flex flex-col">
 					<h4 className="text-xl font-semibold">Abshisk  🌈</h4>
 					<p className="text-sm dark:text-gray-600">Web developer</p>
@@ -128,7 +128,7 @@ function Home() {
 				</div>
 			</div>
 			<div className="flex space-x-6">
-				<img alt="" className="flex-1 flex-shrink-0 object-cover h-56 mb-4 bg-center rounded-sm dark:bg-gray-500" src="https://avatars.githubusercontent.com/u/138369412?v=4" />
+				<img alt="" className="flex-1 flex-shrink-0 object-contain h-56 mb-4 bg-center rounded-sm dark:bg-gray-500" src="https://avatars.githubusercontent.com/u/138369412?v=4" />
 				<div className="flex flex-col">
 					<h4 className="text-xl font-semibold">Anindo  🌈</h4>
 					<p className="text-sm dark:text-gray-600">Designer</p>
@@ -152,7 +152,7 @@ function Home() {
 				</div>
 			</div>
 			<div className="flex space-x-6">
-				<img alt="" className="flex-1 flex-shrink-0 object-cover h-56 mb-4 bg-center rounded-sm dark:bg-gray-500" src={piyush} />
+				<img alt="" className="flex-1 flex-shrink-0 object-contain h-56 mb-4 bg-center rounded-sm dark:bg-gray-500" src={piyush} />
 				<div className="flex flex-col">
 					<h4 className="text-xl font-semibold">Piyush</h4>
 					<p className="text-sm dark:text-gray-600">Sanskrit developer</p>
@@ -176,7 +176,7 @@ function Home() {
 				</div>
 			</div>
 			<div className="flex space-x-6">
-				<img alt="" className="flex-1 flex-shrink-0 object-cover h-56 mb-4 bg-center rounded-sm dark:bg-gray-500" src={yuvraj} />
+				<img alt="" className="flex-1 flex-shrink-0 object-contain h-56 mb-4 bg-center rounded-sm dark:bg-gray-500" src={yuvraj} />
 				<div className="flex flex-col">
 					<h4 className="text-xl font-semibold">Yuvraj CEO</h4>
 					<p className="text-sm dark:text-gray-600">Web developer</p>
@@ -200,7 +200,7 @@ function Home() {
 				</div>
 			</div>
 			<div className="flex space-x-6">
-				<img alt="" className="flex-1 flex-shrink-0 object-cover h-56 mb-4 bg-center rounded-sm dark:bg-gray-500" src={alex} />
+				<img alt="" className="flex-1 flex-shrink-0 object-contain  h-56 mb-4 bg-center rounded-sm dark:bg-gray-500" src={ayush} />
 				<div className="flex flex-col">
 					<h4 className="text-xl font-semibold">Ayush</h4>
 					<p className="text-sm dark:text-gray-600">Mobile developer</p>
@@ -224,7 +224,7 @@ function Home() {
 				</div>
 			</div>
 			<div className="flex space-x-6">
-				<img alt="" className="flex-1 flex-shrink-0 object-cover h-56 mb-4 bg-center rounded-sm dark:bg-gray-500" src="https://source.unsplash.com/240x320/?portrait?5" />
+				<img alt="" className="flex-1 flex-shrink-0 object-contain h-56 mb-4 bg-center rounded-sm dark:bg-gray-500" src="https://source.unsplash.com/240x320/?portrait?5" />
 				<div className="flex flex-col">
 					<h4 className="text-xl font-semibold">Leroy Jenkins</h4>
 					<p className="text-sm dark:text-gray-600">Web developer</p>
@@ -250,10 +250,11 @@ function Home() {
 		</div>
 	</div>
 </section>
+
 <section>
 	<div className="container flex flex-col justify-center px-4 py-8 mx-auto md:p-8">
 		<h2 className="text-2xl font-semibold sm:text-4xl flex text-center">Frequently Asked Questions</h2>
-		<p className="mt-4 mb-8 dark:text-gray-600">Lot question asked by student but we take some common questions</p>
+		<p className="mt-4 mb-8 dark:text-gray-600">Lot of question asked by student but we take some common questions</p>
 		<div className="space-y-4">
 			<details className="w-full border rounded-lg">
 				<summary className="px-4 py-6 focus:outline-none focus-visible:dark:ring-violet-600">What types of courses do you offer</summary>
@@ -281,6 +282,10 @@ function Home() {
 
 export default Home
 
+ 
+
+
+ 
 
 
   

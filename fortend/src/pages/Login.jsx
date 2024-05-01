@@ -73,9 +73,13 @@ function Signup() {
                         />
                     </div>
 
-                    <button type="submit" className='mt-2 bg-yellow-600 hover:bg-yellow-500 transition-all ease-in-out duration-300 rounded-sm py-2 font-semibold text-lg cursor-pointer'>
-                       Login
-                    </button>
+                <div style={{ display: 'flex', justifyContent: 'center' }}>
+                <button
+                type="submit"
+                className='px-6 py-2 font-medium bg-indigo-500 text-white w-fit transition-all shadow-[3px_3px_0px_black] hover:shadow-none hover:translate-x-[3px] hover:translate-y-[3px]'>
+                Login
+                </button>
+                </div>
 
                     <p className="text-center">
                         Donot hanve an account ? <Link to="/signup" className='link text-accent cursor-pointer'> Signup</Link>
