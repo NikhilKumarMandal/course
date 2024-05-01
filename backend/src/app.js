@@ -10,7 +10,8 @@ const app = express()
 app.use(cors({
   origin:'https://course-nine-amber.vercel.app',
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
-  allowedHeaders: ['Content-Type', 'Authorization'],
+   credentials: true
+  // allowedHeaders: ['Content-Type', 'Authorization'],
 }));
 
 app.use(express.json({limit: "116kb"}))
