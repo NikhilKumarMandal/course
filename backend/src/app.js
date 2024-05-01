@@ -8,9 +8,9 @@ import { Stats } from "./models/stats.model.js"
 const app = express()
 
 app.use(cors({
-  origin: 'https://course-oynsae83q-nikhil-kumars-projects-a1fcbdde.vercel.app',
+  origin: ['https://course-oynsae83q-nikhil-kumars-projects-a1fcbdde.vercel.app'],
   methods: ['GET', 'POST', 'PUT', 'DELETE','PATCH'],
-  allowedHeaders: ['Content-Type', 'Authorization'],
+  credentials: true
 }));
 
 app.use(express.json({limit: "116kb"}))
