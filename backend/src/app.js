@@ -8,7 +8,7 @@ import { Stats } from "./models/stats.model.js"
 const app = express()
 
 app.use(cors({
-  origin: [process.env.FRONTEND_URL],
+  origin: 'https://course-nine-amber.vercel.app',
   methods: ['GET', 'POST', 'PUT', 'DELETE','PATCH'],
   credentials: true
 }));
