@@ -114,6 +114,7 @@ const loginUser = asyncHandler(async (req, res) =>{
    const options = {
     httpOnly: true, 
     secure: true, 
+    sameSite: 'None',
     path: '/', 
     maxAge: 24 * 60 * 60 * 1000 
 };
