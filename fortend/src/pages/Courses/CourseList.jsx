@@ -10,15 +10,15 @@ function CourseList() {
     const navigate = useNavigate()
     
     const {courseData} = useSelector((state) => state.course);
-    // const {isLoggedIn} = useSelector((state) => state?.auth)
+    const {isLoggedIn} = useSelector((state) => state?.auth)
 
-    // console.log("hello",isLoggedIn);
+    console.log("hello",isLoggedIn);
 
-    // useEffect(() => {
-    //     if (isLoggedIn === false) {
-    //         navigate('/login')
-    //     }
-    // },[])
+    useEffect(() => {
+        if (isLoggedIn === false) {
+            navigate('/login')
+        }
+    },[])
 
     
 
