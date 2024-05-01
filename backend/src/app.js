@@ -6,7 +6,7 @@ import nodeCron from 'node-cron'
 import { Stats } from "./models/stats.model.js"
 
 const app = express()
-
+  console.log("ENV",process.env.FRONTEND_URL);
 app.use(cors({
   origin: [process.env.FRONTEND_URL],
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
