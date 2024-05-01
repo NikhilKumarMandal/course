@@ -8,7 +8,7 @@ import { Stats } from "./models/stats.model.js"
 const app = express()
 
 app.use(cors({
-  origin: '*',
+  origin: [process.env.FRONTEND_URL],
   methods: ['GET', 'POST', 'PUT', 'DELETE','PATCH'],
   credentials: true
 }));
