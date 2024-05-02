@@ -5,7 +5,7 @@ import Footer from '../Footer/Footer';
 import { useDispatch,useSelector } from 'react-redux'
 import { logout } from '../../redux/slices/AuthSlice.js'
 import { useEffect } from 'react';
-
+import { getUserData } from '../../redux/slices/AuthSlice.js';
 
 
 function Header({children}) {
@@ -19,6 +19,12 @@ function Header({children}) {
     // for displaying the options acc to role
 
     const role = useSelector((state) => state?.auth?.role)
+
+    useEffect(() => {
+        dispatch(getUserData())
+    },[])
+
+    
 
 
     const handleLogout = async (e) => {

@@ -9,7 +9,7 @@ const app = express()
   console.log("ENV",process.env.FRONTEND_URL);
 app.use(cors({
   origin:'https://course-nine-amber.vercel.app',
-  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  methods: ['GET', 'POST', 'PUT', 'DELETE','PATCH'],
    credentials: true
   // allowedHeaders: ['Content-Type', 'Authorization'],
 }));
