@@ -114,8 +114,8 @@ const loginUser = asyncHandler(async (req, res) =>{
    const options = {
     httpOnly: true, 
     secure: true, 
-    // sameSite: 'none',
-    // expires: new Date(Date.now() + 3600000)
+    sameSite: 'none',
+    expires: new Date(Date.now() + 3600000)
     // maxAge: 24 * 60 * 60 * 1000 
 };
 
