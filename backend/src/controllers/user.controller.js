@@ -136,35 +136,41 @@ const loginUser = asyncHandler(async (req, res) =>{
 })
 
 const logoutUser = asyncHandler(async(req, res) => {
-    await User.findByIdAndUpdate(
-        req.user._id,
-        {
-            $unset: {
-                refreshToken: 1 
-            }
-        },
-        {
-            new: true
-        }
-    )
-
-    const options = {
-        httpOnly: true,
-        secure: true,
-        sameSite: 'strict',
-    }
-
-    return res
-    .status(200)
-    .clearCookie("accessToken", options)
-    .clearCookie("refreshToken", options)
-    .json(
-        new ApiResponse(
-            200,
-            {},
-            "User logged Out"
-            )
-        )
+   try {
+     await User.findByIdAndUpdate(
+         req.user._id,
+         {
+             $unset: {
+                 refreshToken: 1 
+             }
+         },
+         {
+             new: true
+         }
+     )
+ 
+     const options = {
+         httpOnly: true,
+         secure: true,
+         sameSite: 'strict',
+     }
+ 
+     return res
+     .status(200)
+     .clearCookie("accessToken", options)
+     .clearCookie("refreshToken", options)
+     .json(
+         new ApiResponse(
+             200,
+             {},
+             "User logged Out"
+             )
+         )
+    console.log('Cookies cleared successfully');
+   } catch (error) {
+    throw new ApiError(500,"somthing went wrong");
+    console.error('Error clearing cookies:', error);
+   }
 })
 
 const refreshAccessToken = asyncHandler(async (req, res) => {
