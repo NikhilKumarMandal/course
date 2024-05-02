@@ -7,12 +7,21 @@ import { Stats } from "./models/stats.model.js"
 
 const app = express()
   console.log("ENV",process.env.FRONTEND_URL);
+
 app.use(cors({
   origin:'https://course-nine-amber.vercel.app',
   methods: ['GET', 'POST', 'PUT', 'DELETE','PATCH'],
    credentials: true
   // allowedHeaders: ['Content-Type', 'Authorization'],
 }));
+
+
+// app.use(cors({
+//   origin:'http://localhost:5173',
+//   methods: ['GET', 'POST', 'PUT', 'DELETE','PATCH'],
+//    credentials: true
+//   // allowedHeaders: ['Content-Type', 'Authorization'],
+// }));
 
 app.use(express.json({limit: "116kb"}))
 app.use(express.urlencoded({extended: true, limit: "116kb"}))
