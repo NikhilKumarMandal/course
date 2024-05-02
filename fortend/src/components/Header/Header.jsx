@@ -58,10 +58,7 @@ function Header({children}) {
 
   return (
 
-    <>
-    
-
-    {isloggedIn ?  <div className="min-h-[90vh]">
+  <div className="min-h-[90vh]">
 
     <div className="drawer absolute left-0 z-50 w-fit">
         <input className="drawer-toggle" id="my-drawer" type="checkbox" />
@@ -144,9 +141,9 @@ function Header({children}) {
     {children}
     <hr className="my-8" />
     <Footer/>
-</div> : navigate('/login')}
+</div> 
 
-</>
+
 
   )
 }
