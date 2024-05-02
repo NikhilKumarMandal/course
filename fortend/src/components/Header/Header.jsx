@@ -20,18 +20,20 @@ function Header({children}) {
 
     const role = useSelector((state) => state?.auth?.role)
 
+
     useEffect(() => {
         dispatch(getUserData())
     },[])
 
-    
-
-
     const handleLogout = async (e) => {
         e.preventDefault()
         const res = await dispatch(logout())
+        if(res?.payload?.status === 200)
+        dispatch(getUserData())
         navigate('/')
     }
+
+
 
   function changeWidth() {
     const drawerSide = document.getElementsByClassName("drawer-side");
