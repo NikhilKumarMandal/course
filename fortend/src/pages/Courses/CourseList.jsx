@@ -15,7 +15,6 @@ function CourseList() {
     console.log("hello",isLoggedIn);
 
     useEffect(() => {
-        window.location.reload();
         if (isLoggedIn === false) {
             navigate('/login')
         }
