@@ -152,7 +152,8 @@ const logoutUser = asyncHandler(async(req, res) => {
      const options = {
          httpOnly: true,
          secure: true,
-         sameSite: 'strict',
+         sameSite: 'none',
+         expires: new Date(0)
      }
  
      return res
