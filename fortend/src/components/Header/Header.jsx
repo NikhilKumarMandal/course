@@ -32,6 +32,7 @@ function Header({children}) {
     const handleLogout = async (e) => {
         e.preventDefault()
         await dispatch(logout())
+        window.location.reload();
         await dispatch(getUserData())
         if(isloggedIn === false)
         navigate('/login')
