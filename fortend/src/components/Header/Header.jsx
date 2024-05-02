@@ -21,16 +21,20 @@ function Header({children}) {
     const role = useSelector((state) => state?.auth?.role)
 
 
+
+
     useEffect(() => {
+        if(isloggedIn === false)
+        navigate('/login')
         dispatch(getUserData())
     },[])
 
     const handleLogout = async (e) => {
         e.preventDefault()
-        const res = await dispatch(logout())
-        if(res?.payload?.status === 200)
-        dispatch(getUserData())
-        navigate('/')
+        await dispatch(logout())
+        await dispatch(getUserData())
+        if(isloggedIn === false)
+        navigate('/login')
     }
 
 
