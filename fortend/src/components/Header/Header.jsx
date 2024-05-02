@@ -25,7 +25,7 @@ function Header({children}) {
 
     useEffect(() => {
         if(isloggedIn === false)
-        navigate('/login')
+        
         dispatch(getUserData())
     },[])
 
