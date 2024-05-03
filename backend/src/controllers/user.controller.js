@@ -67,15 +67,29 @@ const registerUser = asyncHandler( async (req, res) => {
         },
     })
 
+    console.log(user);
+
+    const {accessToken, refreshToken} = await generateAccessAndRefereshTokens(user._id)
+
+    const options = {
+        httpOnly: true, 
+        secure: true, 
+        sameSite: 'none',
+        expires: new Date(Date.now() + 3600000)
+    };
+
     const createdUser = await User.findById(user._id).select(
-        "-password "
+        "-password -refreshToken"
     )
 
     if (!createdUser) {
         throw new ApiError(500, "Something went wrong while registering the user")
     }
+    console.log(createdUser);
 
     return res.status(201)
+    .cookie("accessToken", accessToken, options)
+    .cookie("refreshToken", refreshToken, options)
     .json(
         new ApiResponse(
             200, 
