@@ -22,8 +22,10 @@ function CourseList() {
 
     
 
-    const loadCourse = async () => {
+  const loadCourse = async () => {
+      if (isLoggedIn === true) {
         await dispatch(getAllCourses())
+      }   
     }
 
     useEffect(() => {

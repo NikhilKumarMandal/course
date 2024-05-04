@@ -19,14 +19,25 @@ function Header({children}) {
     // for displaying the options acc to role
 
     const role = useSelector((state) => state?.auth?.role)
+    const userData = useSelector((state) => state?.auth?.data)
 
-
-
+    const throwInLoginPage = () => {
+        if (userData === '') {
+        navigate('/login')
+    }
+    }
 
     useEffect(() => {
-        if(isloggedIn === false)
-        
-        dispatch(getUserData())
+        throwInLoginPage()
+    },[])
+
+    
+
+    useEffect(() => {
+        if (isloggedIn === true) {
+            dispatch(getUserData()) 
+        }
+
     },[])
 
     const handleLogout = async (e) => {
