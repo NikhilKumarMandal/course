@@ -1,7 +1,7 @@
 import { createSlice,createAsyncThunk } from "@reduxjs/toolkit";
 import { toast } from "react-hot-toast";
 import axiosInstance from "../../helpers/axiosInstance.js"
-import {  useNavigate } from 'react-router-dom';
+
 
 const initialState = {
     isLoggedIn : localStorage.getItem('isLoggedIn') || false,
@@ -73,11 +73,8 @@ export const updateProfile = createAsyncThunk("/user/update-profile", async (dat
 
 export const getUserData = createAsyncThunk("/user/details", async (data) => {
     try {
-        const res = axiosInstance.get('/users/current-user', data);
-        
-        return (await res).data;
-       
-        
+        const res = axiosInstance.get('/users/current-user', data);  
+        return (await res).data;       
     } catch(error) {
         toast.error(error?.message || "Unknown error occurred");
     }
