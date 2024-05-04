@@ -20,14 +20,14 @@ function CourseList() {
         }
     },[])
 
-  
-  
-    
-
-
-
-    useEffect(() => {
+  useEffect(() => {
+      try {
         dispatch(getAllCourses())  
+      } catch (error) {
+        console.log(error);
+        navigate('/login')
+      }
+        
     }, [])
 
 
