@@ -34,7 +34,7 @@ function Header({children}) {
 
 
     useEffect(() => {
-       if (isloggedIn == true) 
+       if (isloggedIn === true) 
             dispatch(getUserData()) 
     },[])
 

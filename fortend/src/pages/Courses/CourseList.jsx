@@ -25,7 +25,7 @@ function CourseList() {
 
 
     useEffect(() => {
-        if (isLoggedIn == true) 
+        if (isLoggedIn === true) 
         dispatch(getAllCourses())  
     }, [])
 
