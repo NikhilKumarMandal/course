@@ -31,13 +31,14 @@ function Header({children}) {
         throwInLoginPage()
     },[])
 
-    
-
-    useEffect(() => {
+    checkUserData = () => {
         if (isloggedIn === true) {
             dispatch(getUserData()) 
         }
+    }
 
+    useEffect(() => {
+       checkUserData()
     },[])
 
     const handleLogout = async (e) => {
