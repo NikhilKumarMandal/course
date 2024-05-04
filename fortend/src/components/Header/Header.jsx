@@ -34,9 +34,8 @@ function Header({children}) {
 
 
     useEffect(() => {
-       if (isloggedIn === true) 
-            dispatch(getUserData()) 
-    },[isloggedIn])
+    dispatch(getUserData()) 
+    },[])
 
     const handleLogout = async (e) => {
         e.preventDefault()
