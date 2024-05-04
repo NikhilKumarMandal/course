@@ -30,7 +30,12 @@ function Header({children}) {
 
 
     useEffect(() => {
-    dispatch(getUserData()) 
+        try {
+            dispatch(getUserData())
+        } catch (error) {
+            console.log(error);
+            navigate('/login')
+        }
     },[])
 
     const handleLogout = async (e) => {
