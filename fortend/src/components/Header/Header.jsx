@@ -21,11 +21,18 @@ function Header({children}) {
     const role = useSelector((state) => state?.auth?.role)
     const userData = useSelector((state) => state?.auth?.data)
 
-    useEffect(() => {
-        if (userData == '') {
-        navigate('/login')
-    }
-    },[])
+ useEffect(() => {
+        const fetchData = async () => {
+            try {
+                await dispatch(getUserData());
+            } catch (error) {
+                console.log(error);
+                navigate('/login');
+            }
+        };
+
+        fetchData();
+    }, [dispatch, navigate]);
 
 
 
