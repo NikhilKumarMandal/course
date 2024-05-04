@@ -21,14 +21,10 @@ function Header({children}) {
     const role = useSelector((state) => state?.auth?.role)
     const userData = useSelector((state) => state?.auth?.data)
 
-    const throwInLoginPage = () => {
+    useEffect(() => {
         if (userData == '') {
         navigate('/login')
     }
-    }
-
-    useEffect(() => {
-        throwInLoginPage()
     },[])
 
 
