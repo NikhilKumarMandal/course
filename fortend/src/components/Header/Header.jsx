@@ -31,7 +31,7 @@ function Header({children}) {
         throwInLoginPage()
     },[])
 
-    checkUserData = () => {
+    const checkUserData = () => {
         if (isloggedIn === true) {
             dispatch(getUserData()) 
         }
