@@ -22,7 +22,7 @@ function Header({children}) {
     const userData = useSelector((state) => state?.auth?.data)
 
     const throwInLoginPage = () => {
-        if (userData === '') {
+        if (userData == '') {
         navigate('/login')
     }
     }
@@ -32,7 +32,7 @@ function Header({children}) {
     },[])
 
     const checkUserData = () => {
-        if (isloggedIn === true) {
+        if (isloggedIn == true) {
             dispatch(getUserData()) 
         }
     }

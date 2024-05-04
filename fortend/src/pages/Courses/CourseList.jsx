@@ -23,7 +23,7 @@ function CourseList() {
     
 
   const loadCourse = async () => {
-      if (isLoggedIn === true) 
+      if (isLoggedIn == true) 
         await dispatch(getAllCourses())   
     }
 
