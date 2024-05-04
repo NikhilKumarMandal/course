@@ -76,7 +76,7 @@ export const getUserData = createAsyncThunk("/user/details", async (data) => {
         const res = axiosInstance.get('/users/current-user', data);
         
         return (await res).data;
-        console.log(res.data);
+       
         
     } catch(error) {
         toast.error(error?.message || "Unknown error occurred");
@@ -133,7 +133,8 @@ const authSlice = createSlice({
             state.data = {};
             state.role = '';
         })
-        .addCase(updateProfile.fulfilled, (state, action) => {
+            .addCase(updateProfile.fulfilled, (state, action) => {
+             console.log("Payload received in updateProfile.fulfilled:", action.payload);
             if (action.payload.success) {
                 // Update localStorage with user data and authentication status
                 localStorage.setItem('data', JSON.stringify(action.payload.data));
