@@ -20,6 +20,8 @@ function CourseList() {
         }
     },[])
 
+  
+  console.log(action.payload);
     
 
 
