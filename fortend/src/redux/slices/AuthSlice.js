@@ -9,7 +9,7 @@ const initialState = {
     data: JSON.parse(localStorage.getItem('data')) || {}
 }
 
-const navigate = useNavigate()
+
 
 export const createAccount = createAsyncThunk("/auth/signup", async (data) => {
     try {
